@@ -1,5 +1,9 @@
 # strapi-php-rich-text-parser
 
+[![Latest Version](https://img.shields.io/packagist/v/hugo-levet/strapi-php-rich-text-parser.svg?style=flat-square)](https://packagist.org/packages/hugo-levet/strapi-php-rich-text-parser)
+[![Total Downloads](https://img.shields.io/packagist/dt/hugo-levet/strapi-php-rich-text-parser.svg?style=flat-square)](https://packagist.org/packages/hugo-levet/strapi-php-rich-text-parser)
+[![Software License](https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+
 A PHP parser for Strapi Rich Text fields
 
 ## Usage
