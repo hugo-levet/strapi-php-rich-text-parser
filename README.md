@@ -11,3 +11,7 @@ use HugoLevet\StrapiPhpRichTextParser\RichTextParser;
 
 $html_content = RichTextParser::jsonToHtml($content);
 ```
+
+## Environment variables
+
+Make sure to set the environment variable `STRAPI_URL` with the URL of the Strapi API you are using
