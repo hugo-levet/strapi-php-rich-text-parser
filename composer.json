@@ -1,0 +1,21 @@
+{
+    "name": "hugo-levet/strapi-php-rich-text-parser",
+    "description": "A PHP parser for Strapi Rich Text fields",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Hugolevet\\StrapiPhpRichTextParser\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Hugo Levet",
+            "email": "hugolevet.pro@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require-dev": {
+        "phpunit/phpunit": "^11.3"
+    }
+}
