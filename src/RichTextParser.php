@@ -38,7 +38,10 @@ class RichTextParser
                 }
                 $html_content .= '</li>';
             } elseif ($child->type == 'list') {
-                $html_content .= '<li>' . RichTextParser::parseList($child) . '</li>';
+                // remove last </li> tag
+                $html_content = substr($html_content, 0, -5);
+                // parse nested list
+                $html_content .= RichTextParser::parseList($child) . '</li>';
             } else {
                 $html_content .= '<!-- ' . $child->type . ' is not implemented yet -->';
                 // not implemented

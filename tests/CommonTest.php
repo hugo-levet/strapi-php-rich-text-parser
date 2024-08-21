@@ -59,7 +59,7 @@ final class CommonTest extends TestCase
 
     public function testList3(): void
     {
-        $this->assertEquals('<ul><li>Item 1</li><li><ul><li>SubItem 1</li><li>SubItem 2</li></ul></li><li>Item 2</li></ul>', RichTextParser::jsonToHtml(json_decode('[{"type":"list","children":[{"type":"list-item","children":[{"type":"text","text":"Item 1"}]},{"type":"list","children":[{"type":"list-item","children":[{"type":"text","text":"SubItem 1"}]},{"type":"list-item","children":[{"type":"text","text":"SubItem 2"}]}],"format":"unordered"},{"type":"list-item","children":[{"type":"text","text":"Item 2"}]}],"format":"unordered"}]')));
+        $this->assertEquals('<ul><li>Item 1<ul><li>SubItem 1</li><li>SubItem 2</li></ul></li><li>Item 2</li></ul>', RichTextParser::jsonToHtml(json_decode('[{"type":"list","children":[{"type":"list-item","children":[{"type":"text","text":"Item 1"}]},{"type":"list","children":[{"type":"list-item","children":[{"type":"text","text":"SubItem 1"}]},{"type":"list-item","children":[{"type":"text","text":"SubItem 2"}]}],"format":"unordered"},{"type":"list-item","children":[{"type":"text","text":"Item 2"}]}],"format":"unordered"}]')));
     }
 
     public function testListWithBold(): void
