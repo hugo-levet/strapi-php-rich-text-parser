@@ -72,6 +72,13 @@ final class CommonTest extends TestCase
         $this->assertEquals('<img src="http://localhost:1337/uploads/medium_placeholder.png" alt="Alternative text" width="750" height="375" loading="lazy" />', RichTextParser::jsonToHtml(json_decode('[{"type":"image","image":{"name":"Name image","alternativeText":"Alternative text","url":"http:\/\/localhost:1337\/uploads\/placeholder.png","width":1000,"height":500,"formats":{"thumbnail":{"name":"thumbnail_Name image","width":245,"height":122,"url":"\/uploads\/thumbnail_placeholder.png"},"small":{"name":"small_Name image","width":500,"height":250,"url":"\/uploads\/small_placeholder.png"},"medium":{"name":"medium_Name image","width":750,"height":375,"url":"\/uploads\/medium_placeholder.png"},"large":{"name":"large_Name image","width":1000,"height":500,"url":"\/uploads\/large_placeholder.png"}}}}]')));
     }
 
+    public function testImageWithoutEnv(): void
+    {
+        unset($_ENV["STRAPI_URL"]);
+
+        $this->assertEquals('<img src="http://localhost:1337/uploads/placeholder.png" alt="Alternative text" width="1000" height="500" loading="lazy" />', RichTextParser::jsonToHtml(json_decode('[{"type":"image","image":{"name":"Name image","alternativeText":"Alternative text","url":"http:\/\/localhost:1337\/uploads\/placeholder.png","width":1000,"height":500,"formats":{"thumbnail":{"name":"thumbnail_Name image","width":245,"height":122,"url":"\/uploads\/thumbnail_placeholder.png"},"small":{"name":"small_Name image","width":500,"height":250,"url":"\/uploads\/small_placeholder.png"},"medium":{"name":"medium_Name image","width":750,"height":375,"url":"\/uploads\/medium_placeholder.png"},"large":{"name":"large_Name image","width":1000,"height":500,"url":"\/uploads\/large_placeholder.png"}}}}]')));
+    }
+
     public function testLinkInParagraph(): void
     {
         $this->assertEquals('<p>para<a href="https://example.com" target="_blank" rel="noopener noreferrer">Example</a>graph</p>', RichTextParser::jsonToHtml(json_decode('[{"type":"paragraph","children":[{"type":"text","text":"para"},{"type":"link","url":"https://example.com","children":[{"type":"text","text":"Example"}]},{"type":"text","text":"graph"}]}]')));

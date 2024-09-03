@@ -91,11 +91,15 @@ class RichTextParser
                     break;
 
                 case 'image':
-                    $image = $value->image->formats->medium;
+                    $image = $value->image;
+                    $imageUrl = $value->image->url;
+                    if (isset($_ENV["STRAPI_URL"])) {
+                        $image = $value->image->formats->medium;
+                        $imageUrl = $_ENV["STRAPI_URL"] . $image->url;
+                    }
                     $html_content .=
                         '<img src="' .
-                        $_ENV["STRAPI_URL"] .
-                        $image->url .
+                        $imageUrl .
                         '" alt="' .
                         $value->image->alternativeText .
                         '" width="' .
