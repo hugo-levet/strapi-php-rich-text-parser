@@ -56,11 +56,15 @@ class RichTextParser
         return strpos($data->url, 'https://x.com') !== false;
     }
 
-    private static function embedTweet($url): string
+    private static function embedTweet($url): string | null
     {
         $apiUrl = 'https://publish.twitter.com/oembed?url=' . urlencode($url);
 
-        $response = file_get_contents($apiUrl);
+        try {
+            $response = file_get_contents($apiUrl);
+        } catch (\Exception $e) {
+            return null;
+        }
 
         $tweetData = json_decode($response, true);
 
@@ -76,7 +80,8 @@ class RichTextParser
             $html_content .= RichTextParser::parseText($data);
         } elseif ($type == 'link') {
             if (RichTextParser::isTweet($data)) {
-                $html_content .= RichTextParser::embedTweet($data->url);
+                $embed_tweet = RichTextParser::embedTweet($data->url);
+                $html_content .= $embed_tweet ? $embed_tweet : '<a href="' . $data->url . '" target="_blank" rel="noopener noreferrer">' . RichTextParser::parseText($data->children[0]) . '</a>';
             } else {
                 $is_external_link = $data->url[0] !== '/';
                 $html_content .=
