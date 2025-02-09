@@ -98,4 +98,9 @@ final class CommonTest extends TestCase
     {
         $this->assertEquals('<ul><li>Item 1</li><li>Item 2 <a href="https://hugolevet.fr/" target="_blank" rel="noopener noreferrer">with link</a></li></ul>', RichTextParser::jsonToHtml(json_decode('[{"type":"list","children":[{"type":"list-item","children":[{"type":"text","text":"Item 1"}]},{"type":"list-item","children":[{"type":"text","text":"Item 2 "},{"type":"link","url":"https:\/\/hugolevet.fr\/","children":[{"type":"text","text":"with link"}]},{"text":"","type":"text"}]}],"format":"unordered"}]')));
     }
+
+    public function testTweetLink(): void
+    {
+        $this->assertEquals('<p><blockquote class="twitter-tweet"><p lang="en" dir="ltr">Just released my first Composer package! 🎉<br><br>Introducing strapi-php-rich-text-parser, a tool that helps you easily generate clean HTML from <a href="https://twitter.com/strapijs?ref_src=twsrc%5Etfw">@strapijs</a> rich text fields in PHP.<br><br>Check it out: <a href="https://t.co/qb5OrAMtxU">https://t.co/qb5OrAMtxU</a><a href="https://twitter.com/hashtag/PHP?src=hash&amp;ref_src=twsrc%5Etfw">#PHP</a> <a href="https://twitter.com/hashtag/Strapi?src=hash&amp;ref_src=twsrc%5Etfw">#Strapi</a> <a href="https://twitter.com/hashtag/Composer?src=hash&amp;ref_src=twsrc%5Etfw">#Composer</a> <a href="https://twitter.com/hashtag/WebDev?src=hash&amp;ref_src=twsrc%5Etfw">#WebDev</a></p>&mdash; Hugo Levet (@hugolevet_pro) <a href="https://twitter.com/hugolevet_pro/status/1826023410004119962?ref_src=twsrc%5Etfw">August 20, 2024</a></blockquote>\n<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>\n</p>', preg_replace('/\n+/', '\n', RichTextParser::jsonToHtml(json_decode('[{"type":"paragraph","children":[{"type":"link","url":"https:\/\/x.com\/hugolevet_pro\/status\/1826023410004119962","children":[{"type":"text","text":"https:\/\/x.com\/hugolevet_pro\/status\/1826023410004119962"}]}]}]'))));
+    }
 }

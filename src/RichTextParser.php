@@ -51,6 +51,22 @@ class RichTextParser
         return $html_content;
     }
 
+    private static function isTweet($data): bool
+    {
+        return strpos($data->url, 'https://x.com') !== false;
+    }
+
+    private static function embedTweet($url): string
+    {
+        $apiUrl = 'https://publish.twitter.com/oembed?url=' . urlencode($url);
+
+        $response = file_get_contents($apiUrl);
+
+        $tweetData = json_decode($response, true);
+
+        return $tweetData['html'];
+    }
+
     public static function parseBlockText($data): string
     {
         $html_content = '';
@@ -59,15 +75,19 @@ class RichTextParser
         if ($type == 'text') {
             $html_content .= RichTextParser::parseText($data);
         } elseif ($type == 'link') {
-            $is_external_link = $data->url[0] !== '/';
-            $html_content .=
-                '<a href="' .
-                $data->url .
-                '" ' .
-                ($is_external_link ? 'target="_blank" rel="noopener noreferrer"' : '') .
-                '>' .
-                RichTextParser::parseText($data->children[0]) .
-                '</a>';
+            if (RichTextParser::isTweet($data)) {
+                $html_content .= RichTextParser::embedTweet($data->url);
+            } else {
+                $is_external_link = $data->url[0] !== '/';
+                $html_content .=
+                    '<a href="' .
+                    $data->url .
+                    '" ' .
+                    ($is_external_link ? 'target="_blank" rel="noopener noreferrer"' : '') .
+                    '>' .
+                    RichTextParser::parseText($data->children[0]) .
+                    '</a>';
+            }
         } else {
             $html_content .= '<!-- ' . $data->type . ' is not implemented yet -->';
             // not implemented
