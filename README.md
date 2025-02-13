@@ -16,6 +16,24 @@ use HugoLevet\StrapiPhpRichTextParser\RichTextParser;
 $html_content = RichTextParser::jsonToHtml($content);
 ```
 
+## Using Shortcodes
+
+You can add shortcodes like in WordPress by passing an array of shortcodes and their associated functions to the `jsonToHtml` function. For example:
+
+```php
+$shortcodes = [
+    'shortcode' => 'shortcodeFunction'
+];
+
+function shortcodeFunction($element)
+{
+    return 'Wubba Lubba Dub Dub';
+}
+
+$html = jsonToHtml($json, $shortcodes);
+echo $html;
+```
+
 ## Environment variables
 
 Make sure to set the environment variable `STRAPI_URL` with the URL of the Strapi API you are using

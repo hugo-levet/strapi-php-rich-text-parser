@@ -102,12 +102,24 @@ class RichTextParser
     }
     public
 
-    static function jsonToHtml($json): string
+    static function jsonToHtml($json, $shortcodes = []): string
     {
         $html_content = '';
         foreach ($json as $key => $value) {
             switch ($value->type) {
                 case 'paragraph':
+                    // check if it's a shortcode
+                    if (preg_match('/\[(\w+)\]/', $value->children[0]->text, $matches)) {
+                        $shortcode = $matches[1];
+                        if (isset($shortcodes[$shortcode])) {
+                            $html_content .= call_user_func($shortcodes[$shortcode], $value);
+                            break;
+                        } else {
+                            $html_content .= '<!-- ' . $shortcode . ' shortcode is not implemented yet -->';
+                            // not implemented                            
+                        }
+                    }
+
                     $html_content .= '<p>';
                     foreach ($value->children as $key => $child) {
                         $html_content .= RichTextParser::parseBlockText($child);
