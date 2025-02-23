@@ -182,14 +182,11 @@ class RichTextParser
 
                 case 'quote':
                     $html_content .= '<blockquote>';
+                    $html_content .= '<p>';
                     foreach ($value->children as $key => $child) {
-                        if ($child->type == 'text') {
-                            $html_content .= '<p>' . RichTextParser::parseText($child) . '</p>';
-                        } else {
-                            $html_content .= '<!-- ' . $child->type . ' is not implemented yet -->';
-                            // not implemented
-                        }
+                        $html_content .= RichTextParser::parseBlockText($child);
                     }
+                    $html_content .= '</p>';
                     $html_content .= '</blockquote>';
                     break;
 
