@@ -119,12 +119,17 @@ class RichTextParser
                             // not implemented                            
                         }
                     }
-
-                    $html_content .= '<p>';
+                    $html_to_add = '<p>';
                     foreach ($value->children as $key => $child) {
-                        $html_content .= RichTextParser::parseBlockText($child);
+                        $html_to_add .= RichTextParser::parseBlockText($child);
                     }
-                    $html_content .= '</p>';
+                    $html_to_add .= '</p>';
+
+                    if ($html_to_add === '<p></p>') {
+                        $html_to_add = '<br>';
+                    }
+
+                    $html_content .= $html_to_add;
                     break;
 
                 case 'image':

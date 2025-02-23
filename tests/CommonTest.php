@@ -22,6 +22,11 @@ final class CommonTest extends TestCase
         $this->assertEquals('<p>Paragraph 1</p>', RichTextParser::jsonToHtml(json_decode('[{"type":"paragraph","children":[{"type":"text","text":"Paragraph 1"}]}]')));
     }
 
+    public function testBr(): void
+    {
+        $this->assertEquals('<p>Paragraph 1</p><br><p>Paragraph 2</p>', RichTextParser::jsonToHtml(json_decode('[{"type":"paragraph","children":[{"type":"text","text":"Paragraph 1"}]},{"type":"paragraph","children":[{"type":"text","text":""}]},{"type":"paragraph","children":[{"type":"text","text":"Paragraph 2"}]}]')));
+    }
+
     public function testBold(): void
     {
         $this->assertEquals('<p><strong>Bold text</strong></p>', RichTextParser::jsonToHtml(json_decode('[{"type":"paragraph","children":[{"type":"text","text":"Bold text","bold":true}]}]')));
