@@ -69,7 +69,27 @@ final class CommonTest extends TestCase
 
     public function testImage(): void
     {
-        $this->assertEquals('<img src="http://localhost:1337/uploads/medium_placeholder.png" alt="Alternative text" width="750" height="375" loading="lazy" />', RichTextParser::jsonToHtml(json_decode('[{"type":"image","image":{"name":"Name image","alternativeText":"Alternative text","url":"http:\/\/localhost:1337\/uploads\/placeholder.png","width":1000,"height":500,"formats":{"thumbnail":{"name":"thumbnail_Name image","width":245,"height":122,"url":"\/uploads\/thumbnail_placeholder.png"},"small":{"name":"small_Name image","width":500,"height":250,"url":"\/uploads\/small_placeholder.png"},"medium":{"name":"medium_Name image","width":750,"height":375,"url":"\/uploads\/medium_placeholder.png"},"large":{"name":"large_Name image","width":1000,"height":500,"url":"\/uploads\/large_placeholder.png"}}}}]')));
+        $this->assertEquals('<img src="http://localhost:1337/uploads/large_placeholder.png" alt="Alternative text" width="1000" height="500" loading="lazy" />', RichTextParser::jsonToHtml(json_decode('[{"type":"image","image":{"name":"Name image","alternativeText":"Alternative text","url":"http:\/\/localhost:1337\/uploads\/placeholder.png","width":1000,"height":500,"formats":{"thumbnail":{"name":"thumbnail_Name image","width":245,"height":122,"url":"\/uploads\/thumbnail_placeholder.png"},"small":{"name":"small_Name image","width":500,"height":250,"url":"\/uploads\/small_placeholder.png"},"medium":{"name":"medium_Name image","width":750,"height":375,"url":"\/uploads\/medium_placeholder.png"},"large":{"name":"large_Name image","width":1000,"height":500,"url":"\/uploads\/large_placeholder.png"}}}}]')));
+    }
+
+    public function testImageWithoutLarge(): void
+    {
+        $this->assertEquals('<img src="http://localhost:1337/uploads/medium_placeholder.png" alt="Alternative text" width="750" height="375" loading="lazy" />', RichTextParser::jsonToHtml(json_decode('[{"type":"image","image":{"name":"Name image","alternativeText":"Alternative text","url":"http:\/\/localhost:1337\/uploads\/placeholder.png","width":1000,"height":500,"formats":{"thumbnail":{"name":"thumbnail_Name image","width":245,"height":122,"url":"\/uploads\/thumbnail_placeholder.png"},"small":{"name":"small_Name image","width":500,"height":250,"url":"\/uploads\/small_placeholder.png"},"medium":{"name":"medium_Name image","width":750,"height":375,"url":"\/uploads\/medium_placeholder.png"}}}}]')));
+    }
+
+    public function testImageWithoutMedium(): void
+    {
+        $this->assertEquals('<img src="http://localhost:1337/uploads/small_placeholder.png" alt="Alternative text" width="500" height="250" loading="lazy" />', RichTextParser::jsonToHtml(json_decode('[{"type":"image","image":{"name":"Name image","alternativeText":"Alternative text","url":"http:\/\/localhost:1337\/uploads\/placeholder.png","width":1000,"height":500,"formats":{"thumbnail":{"name":"thumbnail_Name image","width":245,"height":122,"url":"\/uploads\/thumbnail_placeholder.png"},"small":{"name":"small_Name image","width":500,"height":250,"url":"\/uploads\/small_placeholder.png"}}}}]')));
+    }
+
+    public function testImageWithoutSmall(): void
+    {
+        $this->assertEquals('<img src="http://localhost:1337/uploads/thumbnail_placeholder.png" alt="Alternative text" width="245" height="122" loading="lazy" />', RichTextParser::jsonToHtml(json_decode('[{"type":"image","image":{"name":"Name image","alternativeText":"Alternative text","url":"http:\/\/localhost:1337\/uploads\/placeholder.png","width":1000,"height":500,"formats":{"thumbnail":{"name":"thumbnail_Name image","width":245,"height":122,"url":"\/uploads\/thumbnail_placeholder.png"}}}}]')));
+    }
+
+    public function testImageWithoutThumbnail(): void
+    {
+        $this->assertEquals('<img src="http://localhost:1337/uploads/placeholder.png" alt="Alternative text" width="1000" height="500" loading="lazy" />', RichTextParser::jsonToHtml(json_decode('[{"type":"image","image":{"name":"Name image","alternativeText":"Alternative text","url":"http:\/\/localhost:1337\/uploads\/placeholder.png","width":1000,"height":500,"formats":{}}}]')));
     }
 
     public function testImageWithoutEnv(): void

@@ -131,8 +131,22 @@ class RichTextParser
                     $image = $value->image;
                     $imageUrl = $value->image->url;
                     if (isset($_ENV["STRAPI_URL"])) {
-                        $image = $value->image->formats->medium;
-                        $imageUrl = $_ENV["STRAPI_URL"] . $image->url;
+                        if (isset($value->image->formats->large)) {
+                            $image = $value->image->formats->large;
+                        } else if (isset($value->image->formats->medium)) {
+                            $image = $value->image->formats->medium;
+                        } else if (isset($value->image->formats->small)) {
+                            $image = $value->image->formats->small;
+                        } else if (isset($value->image->formats->thumbnail)) {
+                            $image = $value->image->formats->thumbnail;
+                        } else {
+                            $image = null;
+                        }
+                        if ($image) {
+                            $imageUrl = $_ENV["STRAPI_URL"] . $image->url;
+                        } else {
+                            $image = $value->image;
+                        }
                     }
                     $html_content .=
                         '<img src="' .
